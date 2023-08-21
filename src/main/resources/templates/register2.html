@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Spring Security Demo</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<style>
+    .navbar {
+        background-color: green;
+    }
+</style>
+
+<body>
+
+<!-- create navigation bar ( header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}">
+                Registration and
+                Login </a>
+        </div>
+    </div>
+</nav>
+
+<br><br><br><br><br><br><br>
+<!-- Create HTML registration form -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+            <!-- success message -->
+            <div th:if="${param.success}">
+                <div class="alert alert-info">You've successfully registered
+                    to our awesome app!</div>
+            </div>
+
+            <h1>Registration</h1>
+
+            <form th:action="@{/register}" th:object="${user}" method="post">
+                <div class="form-group">
+                    <label class="control-label" for="fname"> First Name </label>
+                    <input id="fname" class="form-control" th:field="*{fname}" placeholder="John" required autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="lname"> Last Name </label>
+                    <input id="lname" class="form-control" th:field="*{lname}" placeholder="Doe" required autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="username"> Username </label>
+                    <input type="email" id="username" class="form-control" th:field="*{username}"  placeholder="johndoe@gmail.com" required autofocus="autofocus" />
+                    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label" for="email"> Email </label>
+                    <input id="email" class="form-control" th:field="*{email}" placeholder="johndoe@gmail.com" required autofocus="autofocus" />
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">Contact</label>
+                    <input type="number" class="form-control" name="contact" id="contact" placeholder="0705173273" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="password"> Password </label>
+                    <input id="password" class="form-control" type="password" th:field="*{password}" required autofocus="autofocus" />
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateofbirth">Date Of Birth</label>
+                    <input type="date" class="form-control" name="dateofbirth" id="dateofbirth" placeholder="" required>
+                </div>
+
+                <!--<div class="form-group">
+                    <label class="control-label" for="inducted"> Inducted </label>
+                    <input type="checkbox" id="inducted" class="form-control" th:field="*{inducted}" required autofocus="autofocus" />
+                    <span th:if="${#fields.hasErrors('inducted')}" th:errors="*{inducted}"></span>
+                </div>-->
+
+                <!--<div class="form-group">
+                    <label class="control-label" for="inducted"> Inducted </label>
+                    <div>
+                        <input type="checkbox" id="inducted" class="form-control" th:field="*{inducted}" required autofocus="autofocus" />
+                        <span th:if="${#fields.hasErrors('inducted')}" th:errors="*{inducted}"></span>
+                    </div>
+                </div>-->
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="control-label" for="inducted"> Inducted:{{***Only Tick If Inducted***}} </label>
+
+                            <input type="checkbox" id="inducted" class="form-control" th:field="*{inducted}" autofocus="autofocus" />
+                            <span th:if="${#fields.hasErrors('inducted')}" th:errors="*{inducted}"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select id="role" th:field="*{role}" required>
+                        <option th:each="role : ${roles}" th:value="${role}" th:text="${role.displayName}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="datejoined">Date Of Joining The Club</label>
+                    <input type="date" class="form-control" name="datejoined" id="datejoined" placeholder="" required>
+                </div>
+
+                <div class="form-group"> <button type="submit" class="btn btn-primary"> Register</button>
+                    <span>Already registered? <a href="/" th:href="@{/login}">Login here</a></span>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

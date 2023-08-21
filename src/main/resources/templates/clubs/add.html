@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="index" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+
+
+<div layout:fragment="content">
+
+  <div class="row">
+    <div class="col-sm-12 mb-4 mb-xl-0">
+      <h4 class="font-weight-bold text-dark">New Club</h4>
+      <!--<p class="font-weight-normal mb-2 text-muted">FEB 20, 2023</p>-->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">New Club Form</h4>
+          <!--<p class="card-description">
+            Basic form layout
+          </p>-->
+          <form th:action="@{/addClub}" method="post">
+
+            <div class="form-group">
+              <label for="name">Club Name</label>
+              <input type="text" class="form-control" name="name" id="name" placeholder="Thika" required>
+            </div>
+
+            <div class="form-group">
+              <label for="country">Country</label>
+              <input type="text" class="form-control" name="country" id="country" placeholder="Doe" required>
+            </div>
+
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input type="text" class="form-control" name="location" id="location" placeholder="Thika, Kisumu, Muranga, Kasarani" required>
+            </div>
+
+            <div class="form-group">
+              <label for="datefounded">Date Founded</label>
+              <input type="date" class="form-control" name="datefounded" id="datefounded" placeholder="" required>
+            </div>
+
+            <!--<div class="form-group">
+              <label for="contact">Contact</label>
+              <input type="datetime-local" class="form-control" name="contact" id="contact" placeholder="0705173273" required>
+            </div>-->
+
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+            <button class="btn btn-light">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+</body>
+</html>

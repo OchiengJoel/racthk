@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml" lang="">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml">
+
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <title>Rac Thika</title>
+
+    <!-- base:css -->
+    <link rel="stylesheet" th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/feather/feather.css}">
+    <link rel="stylesheet" th:href="@{/vendors/base/vendor.bundle.base.css}">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" th:href="@{/vendors/flag-icon-css/css/flag-icon.min.css}"/>
+    <link rel="stylesheet" th:href="@{/vendors/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/jquery-bar-rating/fontawesome-stars-o.css}">
+    <link rel="stylesheet" th:href="@{/vendors/jquery-bar-rating/fontawesome-stars.css}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- endinject -->
+    <link rel="shortcut icon" th:href="@{/images/favicon.png}"/>
+    //For Pie Chart
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+                .chart-container {
+                    display: flex;
+                }
+                .chart-container > div {
+                    flex: 2;
+                    padding: 10px;
+                    box-sizing: border-box;
+                }
+
+                .chart-container2 {
+                    display: flex;
+                    justify-content: center; /* Center positioning */
+                    height: 63%; /* Set the desired height */
+                    width: 80%; /* Set the desired width */
+                }
+                .chart-container2 > div {
+                    flex: 1;
+                    /*height: 20%;  Adjust the percentage value as needed */
+                    /*width: 70%;  Full width */
+                    padding: 10px;
+                    box-sizing: border-box;
+                }
+
+                .custom-card {
+                    height: 200px; /* Adjust the height as needed */
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                @media (max-width: 768px) {
+                  /* Styles for screens up to 768px wide */
+                }
+
+                @media (min-width: 768px) and (max-width: 992px) {
+                  /* Styles for screens between 768px and 992px wide */
+                }
+
+                @media (min-width: 992px) {
+                  /* Styles for screens wider than 992px */
+                }
+
+
+
+    </style>
+</head>
+
+<body>
+
+<div class="container-scroller">
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo" th:href="@{/}"><img src="images/logo.svg" alt="logo"/></a>
+            <a class="navbar-brand brand-logo-mini" th:href="@{/}"><img src="images/logo-mini.svg" alt="logo"/></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <span class="icon-menu"></span>
+            </button>
+            <ul class="navbar-nav mr-lg-2">
+                <li class="nav-item nav-search d-none d-lg-block">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+              <span class="input-group-text" id="search">
+                <i class="icon-search"></i>
+              </span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Search Projects.." aria-label="search"
+                               aria-describedby="search">
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item dropdown d-flex">
+                    <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
+                       id="messageDropdown" href="#" data-toggle="dropdown">
+                        <i class="icon-air-play mx-0"></i>
+                    </a>
+
+                </li>
+                <li class="nav-item dropdown d-flex mr-4">
+                    <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
+                       id="notificationDropdown" href="#" data-toggle="dropdown">
+                        <i class="icon-cog"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                         aria-labelledby="notificationDropdown">
+                        <p class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
+                        <a class="dropdown-item preview-item">
+                            <i class="icon-head"></i> Profile
+                        </a>
+                        <a class="dropdown-item preview-item">
+                            <i class="icon-inbox" th:href="@{/logout}"></i> Logout
+                        </a>
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown mr-4 d-flex">
+                    <a class="nav-link count-indicatord-flex align-item s-center justify-content-center" href="#">
+                        <i class="icon-grid"></i>
+                    </a>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
+                <span class="icon-menu"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <div class="user-profile">
+                <div class="user-image">
+                    <img src="images/faces/logo.jpg">
+                </div>
+                <div class="user-name">
+                    Rotaract Club
+                </div>
+                <div class="user-designation">
+                    Of Thika
+                </div>
+            </div>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">
+                        <i class="icon-box menu-icon"></i>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/members}">
+                        <i class="icon-file menu-icon"></i>
+                        <span class="menu-title">Club Members</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/clubs}">
+                        <i class="icon-pie-graph menu-icon"></i>
+                        <span class="menu-title">Clubs</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/attendance}">
+                        <i class="icon-command menu-icon"></i>
+                        <span class="menu-title">Attendance</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/memberpoints}">
+                        <i class="icon-command menu-icon"></i>
+                        <span class="menu-title">Member Points</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/email}">
+                        <i class="icon-help menu-icon"></i>
+                        <span class="menu-title">E-Mail </span>
+                    </a>
+                </li>
+
+                <!--<li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">
+                        <i class="icon-help menu-icon"></i>
+                        <span class="menu-title">Logout </span>
+                    </a>
+                </li>  -->
+            </ul>
+        </nav>
+
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-sm-12 mb-4 mb-xl-0">
+                        <h2 class="font-weight-bold text-dark">Welcome Back!</h2>
+                        <!--<p class="font-weight-normal mb-2 text-muted">APRIL 1, 2019</p>-->
+                        <p class="font-weight-normal mb-2 text-muted" id="date"></p>
+
+                        <br>
+                        <div class="container">
+                            <div class="alert alert-success">
+                                <strong>Success!</strong> Login Successful.
+                            </div>
+                        </div>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                            <script>
+                              // Get current date and time
+                              const now = new Date();
+
+                              // Format date as "MMM DD, YYYY"
+                              const dateOptions = { month: 'short', day: 'numeric', year: 'numeric' };
+                              const formattedDate = now.toLocaleDateString('en-US', dateOptions);
+
+                              // Format time as "HH:MM:SS AM/PM"
+                              const timeOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
+                              const formattedTime = now.toLocaleTimeString('en-US', timeOptions);
+
+                              // Set the date text in the paragraph element
+                              const dateElement = document.getElementById('date');
+                              dateElement.innerText = formattedDate + ' ' + formattedTime;
+
+                            </script>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-4 grid-margin stretch-card">
+                        <div class="card custom-card">
+                            <div class="card-body">
+                                <h2 class="card-title">Members
+                                    <Types></Types>
+                                </h2>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="text-dark">
+                                            <div class="d-flex pb-3 border-bottom justify-content-between">
+                                                <div class="mr-3"><i
+                                                        class="mdi mdi-signal-cellular-outline icon-md"></i></div>
+                                                <div class="font-weight-bold mr-sm-4">
+                                                    <div>No. Of Members</div>
+                                                    <div class="text-muted font-weight-normal mt-1">32 Minutes Ago</div>
+                                                </div>
+                                                <div>
+                                                    <h3 class="font-weight-bold text-info ml-sm-2"><span
+                                                            th:text="${totalMembers}"></span></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 grid-margin stretch-card">
+                        <div class="card custom-card">
+                            <div class="card-body">
+                                <h2 class="card-title">Clubs</h2>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="text-dark">
+                                            <div class="d-flex pb-3 border-bottom justify-content-between">
+                                                <div class="mr-3"><i
+                                                        class="mdi mdi-signal-cellular-outline icon-md"></i></div>
+                                                <div class="font-weight-bold mr-sm-4">
+                                                    <div>No. Of Clubs</div>
+                                                    <div class="text-muted font-weight-normal mt-1">32 Minutes Ago</div>
+                                                </div>
+                                                <div>
+                                                    <h3 class="font-weight-bold text-info ml-sm-2"><span
+                                                            th:text="${totalClubs}"></span></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 grid-margin stretch-card">
+                        <div class="card custom-card">
+                            <div class="card-body">
+                                <h2 class="card-title mb-3">Attendance</h2>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="text-dark">
+                                            <div class="d-flex pb-3 border-bottom justify-content-between">
+                                                <div class="mr-3"><i
+                                                        class="mdi mdi-signal-cellular-outline icon-md"></i></div>
+                                                <div class="font-weight-bold mr-sm-4">
+                                                    <div>No. Of Attendances</div>
+                                                    <div class="text-muted font-weight-normal mt-1">32 Minutes Ago</div>
+                                                </div>
+                                                <div>
+                                                    <h3 class="font-weight-bold text-info ml-sm-2"><span
+                                                            th:text="${totalAttendance}"></span></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="chart-container">
+                    <div>
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <div>
+                        <canvas id="myChart2"></canvas>
+                    </div>
+                    <div>
+                        <canvas id="myChart3"></canvas>
+                    </div>
+                </div>
+
+                <script th:inline="javascript">
+          var membersPercentage = /*[[${membersPercentage}]]*/ 0;
+          var clubsPercentage = /*[[${clubsPercentage}]]*/ 0;
+          var attendancePercentage = /*[[${attendancePercentage}]]*/ 0;
+
+          // Create the pie chart
+          var ctx = document.getElementById('myChart').getContext('2d');
+          var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: ['Members', 'Clubs', 'Attendance'],
+              datasets: [{
+                data: [membersPercentage, clubsPercentage, attendancePercentage],
+                backgroundColor: [
+                  'rgba(67, 31, 220, 0.8)',
+                  'rgba(31, 220, 161, 0.8)',
+                  'rgba(67, 50, 59, 0.8)'
+                ],
+                borderColor: [
+                  'rgba(67, 31, 220, 1)',
+                  'rgba(31, 220, 161, 1)',
+                  'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 2
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false
+            }
+          });
+
+          var totalMembers = /*[[${totalMembers}]]*/ 0;
+          var totalClubs = /*[[${totalClubs}]]*/ 0;
+          var totalAttendance = /*[[${totalAttendance}]]*/ 0;
+
+          // Create the bar graph
+          var ctx2 = document.getElementById('myChart2').getContext('2d');
+          var myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+              labels: ['Members', 'Clubs', 'Attendance'],
+              datasets: [{
+                label: 'Members Clubs Attendance Count',
+                data: [totalMembers, totalClubs, totalAttendance],
+                backgroundColor: [
+                  'rgba(67, 31, 220, 0.8)',
+                  'rgba(31, 220, 161, 0.8)',
+                  'rgba(67, 50, 59, 0.8)'
+                ],
+                borderColor: [
+                  'rgba(67, 31, 220, 1)',
+                  'rgba(31, 220, 161, 1)',
+                  'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 2
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+          // Retrieve the log user counts from the model
+          var logMemberCounts = /*[[${logMemberCounts}]]*/ {};
+
+          // Extract the log user IDs and counts as arrays
+          var logMemberIds = Object.keys(logMemberCounts);
+          var logMemberCountsArr = Object.values(logMemberCounts);
+
+          // Create a bar graph using Chart.js
+          var ctx = document.getElementById('myChart3').getContext('2d');
+          var myChart3 = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: logMemberIds,
+              datasets: [{
+                label: 'Members Fellowship Attendance Count',
+                data: logMemberCountsArr,
+                backgroundColor: 'rgba(67, 31, 220, 0.8)',
+                borderColor: 'rgba(67, 31, 220, 1)',
+                borderWidth: 2
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+                </script>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+          <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © Rac Thika
+            2020</span>
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> <a href=""
+                                                                                                 target="_blank">Rac Thika</a> from RTRT</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<!-- container-scroller -->
+
+
+<!-- base:js -->
+<script th:src="@{vendors/base/vendor.bundle.base.js}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script th:src="@{js/off-canvas.js}"></script>
+<script th:src="@{js/hoverable-collapse.js}"></script>
+<script th:src="@{js/template.js}"></script>
+<!-- endinject -->
+<!-- plugin js for this page -->
+<script th:src="@{vendors/chart.js/Chart.min.js}"></script>
+<script th:src="@{vendors/jquery-bar-rating/jquery.barrating.min.js}"></script>
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script th:src="@{js/dashboard.js}"></script>
+<!-- End custom js for this page-->
+</body>
+
+</html>

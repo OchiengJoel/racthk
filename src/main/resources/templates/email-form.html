@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="index" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-sm-12 mb-4 mb-xl-0">
+            <h4 class="font-weight-bold text-dark">Email DashBoard</h4>
+            <!--<p class="font-weight-normal mb-2 text-muted">FEB 20, 2023</p>-->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Fill In Correct Details</h6>
+                    <!--<p class="card-description">
+                      Basic form layout
+                    </p>-->
+                    <form th:object="${emailForm}" th:action="@{/email/send}" method="post" enctype="multipart/form-data">
+
+
+                        <div class="form-group ">
+                            <label class="card-title" for="recipients">Recipients:</label>
+                            <select class="js-example-basic-single w-100 form-control" id="recipients" name="recipients" multiple>
+                                <option th:each="email : ${memberEmails}"
+                                        th:value="${email}"
+                                        th:text="${email}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="card-title" for="extraEmail">Extra Email:</label>
+                            <input type="text" class="form-control" id="extraEmail" placeholder="johndoe@gmail.com" name="extraEmail" />
+                        </div>
+
+                        <div>
+                            <label class="card-title" for="subject">Subject:</label>
+                            <input type="text" class="form-control" id="subject" placeholder="Type your subject here.." name="subject" required />
+                        </div>
+
+                        <div>
+                            <label class="card-title" for="body">Body:</label>
+                            <textarea id="body" class="form-control" name="body" placeholder="Type your message here" required></textarea>
+                        </div>
+
+                        <div>
+                            <label class="card-title" for="attachment">Attachment:</label>
+                            <input type="file" id="attachment" name="attachment" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                        <!--<a  class="btn btn-light" th:href="@{/attendance}" role="button">Cancel</a>-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Service To Humanity</h5>
+
+                    <div class="card-body">
+
+                        <!--<form method="get" action="#" th:action="@{/api/clientLogList/search}" th:object="${clientLogList}">
+                          <input type="text" name="keyword" th:value="${keyword}" placeholder="Search by client or user"/>
+                          <button type="submit">Search</button>
+                        </form>-->
+
+                        <div></div>
+                        <div></div>
+
+                        <div class="table-responsive mt-3">
+                            <table class="table table-header-bg table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Recipients</th>
+                                    <th>Extra Email</th>
+                                    <th>Subject</th>
+                                    <th>Body</th>
+                                    <th>Attachment</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="email : ${sentEmails}">
+                                    <td th:text="${emailStat.index+1}"></td>
+                                    <td th:text="${email.recipients}"></td>
+                                    <td th:text="${email.extraEmail}"></td>
+                                    <td th:text="${email.subject}"><a href="#" class="text-primary"></a></td>
+                                    <td th:text="${email.body}"><a href="#" class="text-primary"></a></td>
+                                    <td>
+                                        <a th:if="${email.attachment != null}" th:href="@{'/email/download/' + ${email.id}}">Download</a>
+                                        <span th:unless="${email.attachment != null}">No Attachment</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
