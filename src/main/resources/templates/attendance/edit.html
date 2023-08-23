@@ -25,23 +25,22 @@
 
             <div class="form-group ">
               <label>Member</label>
-              <select class="js-example-basic-single w-100 form-control" id="member" name="member.id"  required>
-                <!--<option>-SELECT-</option>-->
-                <option th:each="member:${members}"
+              <select class="js-example-basic-single w-100 form-control" id="member" name="member.id" required>
+                <option th:each="member : ${members}"
                         th:value="${member.id}"
-                        th::selected="${member.id}==${attendance.member} ? True:False"
-                        th:text="${member.fname} + ' ' + ${member.lname}">
+                        th:selected="${member.id == attendance.member.id}"
+                        th:text="${member.fname + ' ' + member.lname}">
                 </option>
               </select>
+
             </div>
 
             <div class="form-group ">
               <label>Fellowship Club Attended</label>
-              <select class="js-example-basic-single w-100 form-control" id="club" name="club.id"  required>
-                <!--<option>-SELECT-</option>-->
-                <option th:each="club:${clubs}"
+              <select class="js-example-basic-single w-100 form-control" id="club" name="club.id" required>
+                <option th:each="club : ${clubs}"
                         th:value="${club.id}"
-                        th::selected="${club.id}==${attendance.club} ? True:False"
+                        th:selected="${club.id == attendance.club.id}"
                         th:text="${club.name}">
                 </option>
               </select>
@@ -57,12 +56,11 @@
               <input type="date" class="form-control" th:value="${#dates.format(attendance.todate, 'yyyy-MM-dd')}" name="todate" id="todate" placeholder="" required>
             </div>
 
-
             <div class="form-group">
               <label for="attendancetype">Attendance Type</label>
               <select class="form-control" name="attendancetype" id="attendancetype">
-                <option>Fellowships</option>
-                <option>Club Activities</option>
+                <option th:selected="${attendance.attendancetype == 'Fellowships'}" value="Fellowships">Fellowships</option>
+                <option th:selected="${attendance.attendancetype == 'Club Activities'}" value="Club Activities">Club Activities</option>
               </select>
             </div>
 

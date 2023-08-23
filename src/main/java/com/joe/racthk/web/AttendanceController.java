@@ -1,18 +1,25 @@
 package com.joe.racthk.web;
 
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.joe.racthk.DTO.MemberPointsDTO;
 import com.joe.racthk.model.Attendance;
+import com.joe.racthk.model.Club;
+import com.joe.racthk.model.Member;
 import com.joe.racthk.service.AttendanceService;
 import com.joe.racthk.service.ClubService;
 import com.joe.racthk.service.MemberService;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -264,6 +271,162 @@ public class AttendanceController {
         // Close the document
         document.close();
     }
+
+
+
+
+
+
+
+
+  /*  @GetMapping("/attendance")
+    public String showAttendanceList(Model model) {
+
+        addModelAttribute(model);
+
+        *//*List<Member> members = memberService.getAllMembers();
+        List<Club> clubs = clubService.getClubs();
+        List<Attendance> attendances = attendanceService.list();
+
+       model.addAttribute("members", members);
+       model.addAttribute("clubs", clubs);
+       model.addAttribute("attendances", attendances);*//*
+
+        return "attendance/list";
+    }
+*/
+    @PostMapping("/attendance/filter")
+    public String filterAttendance(@RequestParam(required = false) Long memberId,
+                                   @RequestParam(required = false) Long clubId,
+                                   @RequestParam(required = false) String attendancetype,
+                                   Model model) {
+        List<Member> members = memberService.getAllMembers();
+        List<Club> clubs = clubService.getClubs();
+        List<Attendance> filteredAttendances = attendanceService.getFilteredAttendances(memberId, clubId, attendancetype);
+
+        model.addAttribute("members", members);
+        model.addAttribute("clubs", clubs);
+        model.addAttribute("filteredAttendances", filteredAttendances);
+
+        return "attendance/list";
+    }
+
+
+    @GetMapping("/attendance/export/excel")
+    public ResponseEntity<byte[]> exportAttendanceToExcel(@RequestParam(required = false) Long memberId,
+                                                          @RequestParam(required = false) Long clubId,
+                                                          @RequestParam(required = false) String attendancetype) {
+        List<Attendance> filteredAttendances = attendanceService.getFilteredAttendances(memberId, clubId, attendancetype);
+        //byte[] excelBytes = attendanceService.exportToExcel(filteredAttendances);
+        byte[] excelBytes = exportToExcel(filteredAttendances);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "attendance.xlsx");
+
+        return new ResponseEntity<>(excelBytes, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/attendance/export/pdf1")
+    public ResponseEntity<byte[]> exportAttendanceToPDF(@RequestParam(required = false) Long memberId,
+                                                        @RequestParam(required = false) Long clubId,
+                                                        @RequestParam(required = false) String attendancetype) {
+        List<Attendance> filteredAttendances = attendanceService.getFilteredAttendances(memberId, clubId, attendancetype);
+        //byte[] pdfBytes = attendanceService.exportToPDF(filteredAttendances);
+        byte[] pdfBytes = exportToPDF(filteredAttendances);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "attendance.pdf");
+
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+
+
+    public byte[] exportToPDF(List<Attendance> attendances) {
+        try {
+            Document document = new Document();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            PdfWriter.getInstance(document, outputStream);
+
+            document.open();
+
+            Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+            font.setSize(18);
+
+            Paragraph title = new Paragraph("Attendance Data", font);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            PdfPTable table = new PdfPTable(5);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
+
+            String[] headers = {"Member", "Club", "From Date", "To Date", "Attendance Type"};
+            for (String header : headers) {
+                PdfPCell cell = new PdfPCell();
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                cell.setPhrase(new Phrase(header));
+                table.addCell(cell);
+            }
+
+            for (Attendance attendance : attendances) {
+                table.addCell(attendance.getMember().getFname() + " " + attendance.getMember().getLname());
+                table.addCell(attendance.getClub().getName());
+                table.addCell(attendance.getFromdate().toString());
+                table.addCell(attendance.getTodate().toString());
+                table.addCell(attendance.getAttendancetype());
+            }
+
+            document.add(table);
+            document.close();
+
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            // Handle exceptions here
+            return null;
+        }
+    }
+
+
+    public byte[] exportToExcel(List<Attendance> attendances) {
+        try {
+            // Create a new Excel workbook and sheet
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Attendance Data");
+
+            // Create header row
+            Row headerRow = sheet.createRow(0);
+            String[] headers = {"Member", "Club", "From Date", "To Date", "Attendance Type"};
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
+
+            // Populate data rows
+            int rowNum = 1;
+            for (Attendance attendance : attendances) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(attendance.getMember().getFname() + " " + attendance.getMember().getLname());
+                row.createCell(1).setCellValue(attendance.getClub().getName());
+                row.createCell(2).setCellValue(attendance.getFromdate().toString());
+                row.createCell(3).setCellValue(attendance.getTodate().toString());
+                row.createCell(4).setCellValue(attendance.getAttendancetype());
+            }
+
+            // Write the workbook content to a ByteArrayOutputStream
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+            workbook.close();
+
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            // Handle exceptions here
+            return null;
+        }
+    }
+
 
 
 }

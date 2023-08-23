@@ -4,8 +4,6 @@
       layout:decorate="index" xmlns:th="http://www.w3.org/1999/xhtml">
 
     <body>
-
-
               <div layout:fragment="content">
 
                   <div class="row">
@@ -45,6 +43,38 @@
                                               </div>
                                           </div>
                                       </div>
+
+                                      <div>
+                                          <!-- Filter Form -->
+                                          <form  id="filterForm" th:action="@{/attendance/filter}" method="post">
+                                              <label for="member">Member:</label>
+                                              <select id="member" name="memberId">
+                                                  <option value="">All Members</option>
+                                                  <option th:each="member : ${members}" th:value="${member.id}" th:text="${member.fname + ' ' + member.lname}"></option>
+                                              </select>
+
+                                              <label for="club">Club:</label>
+                                              <select id="club" name="clubId">
+                                                  <option value="">All Clubs</option>
+                                                  <option th:each="club : ${clubs}" th:value="${club.id}" th:text="${club.name}"></option>
+                                              </select>
+
+                                              <label for="attendancetype">Attendance Type:</label>
+                                              <select id="attendancetype" name="attendancetype">
+                                                  <option value="">All Types</option>
+                                                  <option>Fellowships</option>
+                                                  <option>Club Activities</option>
+                                              </select>
+
+                                              <button type="submit">Apply Filters</button>
+                                          </form>
+
+                                          <!-- Export Buttons -->
+                                          <a th:href="@{/attendance/export/excel}">Export to Excel</a>
+                                          <a th:href="@{/attendance/export/pdf1}">Export to PDF</a>
+
+                                      </div>
+
 
                                       <div class="table-responsive mt-3">
                                           <table class="table table-header-bg table-striped">
@@ -86,6 +116,30 @@
                       </div>
                   </div>
               </div>
+
+
+              <script th:inline="javascript">
+                  $(document).ready(function() {
+                      // Handler for the form submission
+                      $('#filterForm').submit(function(e) {
+                          e.preventDefault(); // Prevent form submission
+
+                          // Get form data
+                          var formData = $(this).serialize();
+
+                          // AJAX request to fetch filtered data
+                          $.ajax({
+                              type: 'POST',
+                              url: /* URL for your filter endpoint */,
+                              data: formData,
+                              success: function(filteredData) {
+                                  // Update the table with filtered data
+                                  $('#attendanceTable').html(filteredData);
+                              }
+                          });
+                      });
+                  });
+              </script>
 
     </body>
 </html>
