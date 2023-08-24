@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+
+<th:block th:fragment="attendanceRow">
+    <tr>
+        <td th:text="${attendanceStat.index+1}"></td>
+        <td th:text="${attendance.member.fname} + ' ' + ${attendance.member.lname}"></td>
+        <td th:text="${attendance.club.name}"></td>
+        <td th:text="${attendance.fromdate}"></td>
+        <td th:text="${attendance.todate}"><a href="#" class="text-primary"></a></td>
+        <td th:text="${attendance.points}"><a href="#" class="text-primary"></a></td>
+        <td th:text="${attendance.attendancetype}"><a href="#" class="text-primary"></a></td>
+        <td>
+            <div class="btn-group">
+                <!-- ... action buttons ... -->
+            </div>
+        </td>
+    </tr>
+</th:block>
 
 </body>
 </html>

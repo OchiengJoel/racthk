@@ -308,8 +308,10 @@ public class AttendanceController {
         model.addAttribute("clubs", clubs);
         model.addAttribute("filteredAttendances", filteredAttendances);
 
-        return "attendance/list";
+       // return "attendance/list";
+        return "fragments/attendanceRow :: attendanceList";
     }
+
 
 
     @GetMapping("/attendance/export/excel")
