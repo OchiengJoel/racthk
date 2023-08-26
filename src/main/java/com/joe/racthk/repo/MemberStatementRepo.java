@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface MemberStatementRepo extends JpaRepository<MemberStatement, Long> {
-    List<MemberStatement> findByMemberOrderByPeriodAsc(Member member);
+    MemberStatement findByMember(Member member);
+    //List<MemberStatement> findByMemberOrderByPeriodAsc(Member member);
 
 }

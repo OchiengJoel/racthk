@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="index" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+
+
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-sm-12 mb-4 mb-xl-0">
+            <h4 class="font-weight-bold text-dark">New Club</h4>
+            <!--<p class="font-weight-normal mb-2 text-muted">FEB 20, 2023</p>-->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Add Expected Contribution</h4>
+                    <!--<p class="card-description">
+                      Basic form layout
+                    </p>-->
+
+                    <h4 class="font-weight-bold text-dark">Add Expected Contribution</h4>
+
+
+                    <form th:action="@{/contributionForm}" method="post">
+                        <div class="form-group">
+                            <label for="member">Member:</label>
+                            <select id="member" class="form-control" name="memberId">
+                                <option th:each="member : ${members}" th:value="${member.id}" th:text="${member.fname + ' ' + member.lname}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="period">Period:</label>
+                            <input type="text" class="form-control" id="period" name="period" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount:</label>
+                            <input type="text" class="form-control" id="amount" name="amount" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mr-2">Save Contribution</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                        <button class="btn btn-light">Cancel</button>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+</body>
+</html>
