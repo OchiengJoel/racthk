@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("/memberStatement")
 public class MemberStatementController {
 
     private final MemberStatementService memberStatementService;
@@ -25,7 +24,7 @@ public class MemberStatementController {
         this.memberService = memberService;
     }
 
-    @GetMapping
+    @GetMapping("/memberStatement")
     public String showMemberStatements(Model model) {
         List<Member> members = memberService.getAllMembers(); // Retrieve all members
         List<MemberStatement> memberStatements = memberStatementService.getAllMemberStatements(members);
@@ -53,12 +52,13 @@ public class MemberStatementController {
     @GetMapping("/contributionForm")
     public String showContributionForm(Model model) {
         List<Member> members = memberService.getAllMembers();
-        List<String> periods = Arrays.asList("July/June-2022", "July/June-2023", "July/June-2024", "July/June-2025");
+        List<String> periods = Arrays.asList("July-2023/June-2024", "Null-Do Not Select");
+        List<MemberStatement> contributions = memberStatementService.getAllExpectedContributions();
 
         model.addAttribute("members", members);
         model.addAttribute("periods", periods);
         model.addAttribute("contributionForm", new MemberStatement()); // Or create a dedicated ContributionForm class
-
+        model.addAttribute("contributions", contributions);
         return "members/contributionForm";
     }
 
@@ -67,19 +67,21 @@ public class MemberStatementController {
         contributionForm.setTransactionType("Expected Contribution");
         memberStatementService.saveMemberStatement(contributionForm);
 
-        return "redirect:/members/contributionForm";
+        return "redirect:/contributionForm";
     }
 
     @GetMapping("/paymentForm")
     public String showPaymentForm(Model model) {
         List<Member> members = memberService.getAllMembers();
-        List<String> periods = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec");
-        List<String> paymentModes = Arrays.asList("Cash", "Bank Transfer", "M-Pesa", "Cheque");
+        List<String> paymentPeriods = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec");
+        List<String> modeOfPayment = Arrays.asList("Cash", "Bank Transfer", "M-Pesa", "Cheque");
+        List<MemberStatement> memberPayments = memberStatementService.getAllMemberPaymentsList();
 
         model.addAttribute("members", members);
-        model.addAttribute("periods", periods);
-        model.addAttribute("paymentModes", paymentModes);
+        model.addAttribute("paymentPeriods", paymentPeriods);
+        model.addAttribute("modeOfPayment", modeOfPayment);
         model.addAttribute("paymentForm", new MemberStatement()); // Or create a dedicated PaymentForm class
+        model.addAttribute("memberPayments", memberPayments);
 
         return "members/paymentForm";
     }
@@ -89,7 +91,19 @@ public class MemberStatementController {
         paymentForm.setTransactionType("Payment");
         memberStatementService.saveMemberStatement(paymentForm);
 
-        return "redirect:/members/paymentForm";
+        return "redirect:/paymentForm";
+    }
+
+    @GetMapping("/deleteContribution/{id}")
+    public String deleteContribution(@PathVariable Long id) {
+        memberStatementService.deleteMemberStatement(id);
+        return "redirect:/contributionForm";
+    }
+
+    @GetMapping("/deleteMemberPayment/{id}")
+    public String deleteMemberPayment(@PathVariable Long id) {
+        memberStatementService.deleteMemberStatement(id);
+        return "redirect:/paymentForm";
     }
 
 }

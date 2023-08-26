@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface MemberStatementRepo extends JpaRepository<MemberStatement, Long> {
     MemberStatement findByMember(Member member);
+
+    List<MemberStatement> findByTransactionType(String transactionType);
     //List<MemberStatement> findByMemberOrderByPeriodAsc(Member member);
 
 }

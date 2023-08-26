@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MemberStatementService {
@@ -88,5 +90,53 @@ public class MemberStatementService {
         return memberStatementRepo.save(memberStatement);
     }
 
+    public void deleteMemberStatement(Long id) {
+        memberStatementRepo.deleteById(id);
+    }
+
+
+    public List<MemberStatement> getAllExpectedContributions() {
+        return memberStatementRepo.findByTransactionType("Expected Contribution");
+    }
+
+    public List<MemberStatement> getAllMemberPaymentsList() {
+        return memberStatementRepo.findByTransactionType("Payment");
+    }
+
+
+
+    public List<MemberStatement> getAllAmountContributed() {
+        List<MemberStatement> paymentStatements = memberStatementRepo.findByTransactionType("Payment");
+        List<MemberStatement> expectedContributionStatements = memberStatementRepo.findByTransactionType("Expected Contribution");
+
+        // Create a map to store the total expected contributions and total amount contributed for each member
+        Map<Long, BigDecimal> totalExpectedContributions = new HashMap<>();
+        Map<Long, BigDecimal> totalAmountContributed = new HashMap<>();
+
+        // Calculate the total expected contributions for each member
+        for (MemberStatement statement : expectedContributionStatements) {
+            Long memberId = statement.getMember().getId();
+            BigDecimal contribution = statement.getExpectedContribution();
+            totalExpectedContributions.put(memberId, totalExpectedContributions.getOrDefault(memberId, BigDecimal.ZERO).add(contribution));
+        }
+
+        // Calculate the total amount contributed for each member
+        for (MemberStatement statement : paymentStatements) {
+            Long memberId = statement.getMember().getId();
+            BigDecimal contribution = statement.getAmountContributed();
+            totalAmountContributed.put(memberId, totalAmountContributed.getOrDefault(memberId, BigDecimal.ZERO).add(contribution));
+        }
+
+        // Calculate the balance for each member and update the existing statements
+        for (MemberStatement statement : paymentStatements) {
+            Long memberId = statement.getMember().getId();
+            BigDecimal totalExpected = totalExpectedContributions.getOrDefault(memberId, BigDecimal.ZERO);
+            BigDecimal totalContributed = totalAmountContributed.getOrDefault(memberId, BigDecimal.ZERO);
+            BigDecimal balance = totalExpected.subtract(totalContributed);
+            statement.setBalance(balance);
+        }
+
+        return paymentStatements;
+    }
 
 }
