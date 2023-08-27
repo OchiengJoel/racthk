@@ -1,6 +1,7 @@
 package com.joe.racthk.web;
 
 import com.joe.racthk.model.Member;
+import com.joe.racthk.model.MemberAccountStatement;
 import com.joe.racthk.model.MemberStatement;
 import com.joe.racthk.service.MemberService;
 import com.joe.racthk.service.MemberStatementService;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +27,7 @@ public class MemberStatementController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/memberStatement")
+   /* @GetMapping("/memberStatement")
     public String showMemberStatements(Model model) {
         List<Member> members = memberService.getAllMembers(); // Retrieve all members
         List<MemberStatement> memberStatements = memberStatementService.getAllMemberStatements(members);
@@ -33,7 +36,7 @@ public class MemberStatementController {
         model.addAttribute("memberStatements", memberStatements);
 
         return "statements/list";
-    }
+    }*/
 
     @GetMapping("/{id}")
     @ResponseBody
@@ -46,7 +49,6 @@ public class MemberStatementController {
     public MemberStatement createMemberStatement(@RequestBody MemberStatement memberStatement) {
         return memberStatementService.createMemberStatement(memberStatement);
     }
-
 
 
     @GetMapping("/contributionForm")
@@ -106,4 +108,24 @@ public class MemberStatementController {
         return "redirect:/paymentForm";
     }
 
+
+    @GetMapping("/memberAccountStatement")
+    public String showMemberAccountStatements(Model model) {
+        List<MemberAccountStatement> memberAccountStatements = memberStatementService.calculateMemberAccountStatements();
+
+        model.addAttribute("memberAccountStatements", memberAccountStatements);
+
+        return "statements/list";
+    }
+
+
+    @GetMapping("/memberStatement/{memberId}")
+    public String showMemberStatement(@PathVariable Long memberId, Model model) {
+        Member member = memberService.getByMemberId(memberId);
+        List<MemberStatement> memberStatements = memberStatementService.getMemberStatementsForMember(member);
+
+        model.addAttribute("memberStatements", memberStatements);
+
+        return "statements/memberStatement";
+    }
 }

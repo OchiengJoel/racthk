@@ -33,27 +33,32 @@
                         <table class="table table-header-bg table-striped">
                             <thead>
                             <tr>
-                                <th>Member ID</th>
-                                <th>Member</th>
+                                <th>Transaction Type</th>
+                                <th>Period</th>
+                                <th>Payment Periods</th>
+                                <th>Recording Date</th>
+                                <th>Banking Date</th>
+                                <th>Mode of Payment</th>
+                                <th>Payment Reference</th>
                                 <th>Expected Contribution</th>
-                                <th>Amount Paid</th>
-                                <th>Pending Balance</th>
-                                <th>Action</th>
+                                <th>Amount Contributed</th>
+                                <th>Running Balance</th>
                             </tr>
                             </thead>
                             <tbody>
 
-                            <tr th:each="accountStatement : ${memberAccountStatements}">
-                                <td th:text="${accountStatement.member.id}"></td>
-                                <td th:text="${accountStatement.member.fname} + ' ' + ${accountStatement.member.lname}"></td>
-                                <td th:text="${accountStatement.totalExpectedContribution}"></td>
-                                <td th:text="${accountStatement.totalAmountContributed}"></td>
-                                <td th:text="${accountStatement.balance}"></td>
-                                <td>
-                                    <a th:href="@{/memberStatement/{memberId}(memberId=${accountStatement.member.id})}" class="btn btn-primary">Show Statement</a>
-                                </td>
-                                <!--<td><button class="btn btn-primary">Show Statement</button></td>-->
-<!--                                <td><button class="btn btn-primary" th:onclick="'javascript:showStatement(' + ${accountStatement.id} + ')'">Show Statement</button></td>-->
+                            <!-- Loop through the member's statements and display the data -->
+                            <tr th:each="statement : ${memberStatements}">
+                                <td th:text="${statement.transactionType}"></td>
+                                <td th:text="${statement.period}"></td>
+                                <td th:text="${statement.paymentPeriods}"></td>
+                                <td th:text="${statement.recordingDate}"></td>
+                                <td th:text="${statement.bankingDate}"></td>
+                                <td th:text="${statement.modeOfPayment}"></td>
+                                <td th:text="${statement.paymentReference}"></td>
+                                <td th:text="${statement.expectedContribution}"></td>
+                                <td th:text="${statement.amountContributed}"></td>
+                                <td th:text="${statement.balance}"></td>
                             </tr>
 
                             </tbody>
