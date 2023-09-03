@@ -114,6 +114,8 @@ public class MemberStatementService {
 
 
 
+
+
     public List<MemberStatement> getMemberStatementsForMember(Member member) {
         return memberStatementRepo.findByMember(member);
     }
@@ -139,6 +141,14 @@ public class MemberStatementService {
         }
 
         return accountStatements;
+    }
+
+    public BigDecimal getTotalExpectedContributionSum() {
+        return memberStatementRepo.sumTotalExpectedContribution();
+    }
+
+    public BigDecimal getTotalAmountContributedSum() {
+        return memberStatementRepo.sumTotalAmountContributed();
     }
 
 

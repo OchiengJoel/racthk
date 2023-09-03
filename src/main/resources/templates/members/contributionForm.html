@@ -18,13 +18,7 @@
         <div class="col-md-6 mx-auto">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Add Expected Contribution</h4>
-                    <!--<p class="card-description">
-                      Basic form layout
-                    </p>-->
-
-                    <h4 class="font-weight-bold text-dark">Add Expected Contribution</h4>
-
+                    <h5 class="font-weight-bold text-dark">Add Expected Contribution</h5>
 
                     <form th:action="@{/contributionForm}" method="post">
                         <div class="form-group">
@@ -51,9 +45,9 @@
                             <input type="number" class="form-control" id="expectedContribution" name="expectedContribution" required min="0" step="0.01" />
                         </div>
 
-                        <button type="submit" class="btn btn-primary mr-2">Save Contribution</button>
+                        <button type="submit" class="btn btn-primary mr-2">Save Bill</button>
                         <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <button class="btn btn-light"  th:onclick="|window.location.href='@{/memberAccountStatement}'|" type="button" >Cancel</button>
                     </form>
                 </div>
             </div>

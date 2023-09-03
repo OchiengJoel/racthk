@@ -39,6 +39,12 @@ public interface MemberStatementRepo extends JpaRepository<MemberStatement, Long
     BigDecimal sumAmountContributedByMember(@Param("member") Member member);
 
 
+    @Query("SELECT COALESCE(SUM(ms.expectedContribution), 0) FROM MemberStatement ms")
+    BigDecimal sumTotalExpectedContribution();
+
+    @Query("SELECT COALESCE(SUM(ms.amountContributed), 0) FROM MemberStatement ms")
+    BigDecimal sumTotalAmountContributed();
+
 
 }
 

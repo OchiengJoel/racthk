@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-sm-12 mb-4 mb-xl-0">
-            <h4 class="font-weight-bold text-dark">New Club</h4>
+            <h4 class="font-weight-bold text-dark">Payment List</h4>
             <!--<p class="font-weight-normal mb-2 text-muted">FEB 20, 2023</p>-->
         </div>
     </div>
@@ -26,48 +26,74 @@
                     <!--<h4 class="font-weight-bold text-dark">Add New Member Payment</h4>-->
 
                     <form th:action="@{/paymentForm}" method="post">
-                        <div class="form-group">
-                            <label for="member">Member:</label>
-                            <select id="member" class="form-control" name="member.id">
-                                <option th:each="member : ${members}" th:value="${member.id}" th:text="${member.fname + ' ' + member.lname}"></option>
-                            </select>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="member">Member:</label>
+                                <select class="form-control" id="member" name="member.id" required>
+                                    <option th:each="member : ${members}" th:value="${member.id}" th:text="${member.fname + ' ' + member.lname}"></option>
+                                </select>
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="paymentPeriods">Period:</label>
+                                <select class="form-control" id="paymentPeriods" name="paymentPeriods" required>
+                                    <option th:each="paymentPeriod : ${paymentPeriods}" th:value="${paymentPeriod}" th:text="${paymentPeriod}"></option>
+                                </select>
+                            </div>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="paymentPeriods">Period:</label>
-                            <select class="form-control" id="paymentPeriods" name="paymentPeriods" required>
-                                <option th:each="paymentPeriod : ${paymentPeriods}" th:value="${paymentPeriod}" th:text="${paymentPeriod}"></option>
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="recordingDate">Recording Date:</label>
+                                <input type="date" class="form-control" id="recordingDate" name="recordingDate" required />
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="bankingDate">Banking Date:</label>
+                                <input type="date" class="form-control" id="bankingDate" name="bankingDate" required />
+                            </div>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="recordingDate">Recording Date:</label>
-                            <input type="date" class="form-control" id="recordingDate" name="recordingDate" required />
+                        <div class="row">
+
+                            <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="modeOfPayment">Mode Of Payment:</label>
+                                <select class="form-control" id="modeOfPayment" name="modeOfPayment" required>
+                                    <option th:each="mode : ${modeOfPayment}" th:value="${mode}" th:text="${mode}"></option>
+                                </select>
+                            </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="paymentReference">Payment Reference:</label>
+                                    <input type="text" class="form-control" id="paymentReference" name="paymentReference" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="amountContributed">Amount:</label>
+                                <input type="number" class="form-control" id="amountContributed" name="amountContributed" required />
+                            </div>
+                            </div>
+
                         </div>
 
-                        <div class="form-group">
-                            <label for="bankingDate">Banking Date:</label>
-                            <input type="date" class="form-control" id="bankingDate" name="bankingDate" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="paymentReference">Payment Reference:</label>
-                            <input type="text" class="form-control" id="paymentReference" name="paymentReference" required />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="modeOfPayment">Period:</label>
-                            <select class="form-control" id="modeOfPayment" name="modeOfPayment" required>
-                                <option th:each="mode : ${modeOfPayment}" th:value="${mode}" th:text="${mode}"></option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="amountContributed">Amount:</label>
-                            <input type="number" class="form-control" id="amountContributed" name="amountContributed" required />
-                        </div>
                         <button type="submit" class="btn btn-primary mr-2">Save Payment</button>
                         <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <button class="btn btn-light"  th:onclick="|window.location.href='@{/memberAccountStatement}'|" type="button" >Cancel</button>
+
                     </form>
                 </div>
             </div>

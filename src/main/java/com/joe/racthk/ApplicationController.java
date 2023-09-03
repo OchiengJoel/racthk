@@ -6,7 +6,9 @@ import com.joe.racthk.model.User;
 import com.joe.racthk.repo.AttendanceRepo;
 import com.joe.racthk.repo.ClubRepo;
 import com.joe.racthk.repo.MemberRepo;
+import com.joe.racthk.repo.MemberStatementRepo;
 import com.joe.racthk.service.MemberService;
+import com.joe.racthk.service.MemberStatementService;
 import com.joe.racthk.service.UserService;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,11 +43,20 @@ public class ApplicationController {
    @Autowired
     private final AttendanceRepo attendanceRepo;
 
-    public ApplicationController(MemberService memberService, MemberRepo memberRepo, ClubRepo clubRepo, AttendanceRepo attendanceRepo, UserService userService) {
+
+   @Autowired
+   private final MemberStatementRepo memberStatementRepo;
+
+
+   private final MemberStatementService memberStatementService;
+
+    public ApplicationController(MemberService memberService, MemberRepo memberRepo, ClubRepo clubRepo, AttendanceRepo attendanceRepo, MemberStatementRepo memberStatementRepo, MemberStatementService memberStatementService, UserService userService) {
         this.memberService = memberService;
         this.memberRepo = memberRepo;
         this.clubRepo = clubRepo;
         this.attendanceRepo = attendanceRepo;
+        this.memberStatementRepo = memberStatementRepo;
+        this.memberStatementService = memberStatementService;
         this.userService = userService;
     }
 
@@ -85,6 +97,7 @@ public class ApplicationController {
         long totalClubs = clubRepo.count();
         long totalAttendance = attendanceRepo.count();
 
+
         model.addAttribute("totalMembers", totalMembers);
         model.addAttribute("totalClubs", totalClubs);
         model.addAttribute("totalAttendance", totalAttendance);
@@ -93,6 +106,18 @@ public class ApplicationController {
         logger.info("totalMembers: {}", totalMembers );
         logger.info("totalClubs: {}", totalClubs );
         logger.info("totalAttendance: {}", totalAttendance );
+
+
+
+        // Total Sum
+        BigDecimal totalExpectedContributionSum = memberStatementService.getTotalExpectedContributionSum();
+        BigDecimal totalAmountContributedSum = memberStatementService.getTotalAmountContributedSum();
+
+        model.addAttribute("totalExpectedContributionSum", totalExpectedContributionSum);
+        model.addAttribute("totalAmountContributedSum", totalAmountContributedSum);
+
+        logger.info("totalExpectedContributionSum: {}", totalExpectedContributionSum);
+        logger.info("totalAmountContributedSum: {}", totalAmountContributedSum);
 
         //End For Card Count
 

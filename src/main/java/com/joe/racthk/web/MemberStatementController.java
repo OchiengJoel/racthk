@@ -112,8 +112,14 @@ public class MemberStatementController {
     @GetMapping("/memberAccountStatement")
     public String showMemberAccountStatements(Model model) {
         List<MemberAccountStatement> memberAccountStatements = memberStatementService.calculateMemberAccountStatements();
-
         model.addAttribute("memberAccountStatements", memberAccountStatements);
+
+        // Total Sum
+        BigDecimal totalExpectedContributionSum = memberStatementService.getTotalExpectedContributionSum();
+        BigDecimal totalAmountContributedSum = memberStatementService.getTotalAmountContributedSum();
+
+        model.addAttribute("totalExpectedContributionSum", totalExpectedContributionSum);
+        model.addAttribute("totalAmountContributedSum", totalAmountContributedSum);
 
         return "statements/list";
     }
@@ -128,4 +134,6 @@ public class MemberStatementController {
 
         return "statements/memberStatement";
     }
+
+
 }

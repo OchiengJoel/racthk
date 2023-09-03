@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.w3.org/1999/xhtml" lang="">
+      xmlns:sec="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html" lang="">
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml">
 
 
@@ -250,7 +250,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-xl-4 grid-margin stretch-card">
+                    <div class="col-xl-3 grid-margin stretch-card">
                         <div class="card custom-card">
                             <div class="card-body">
                                 <h2 class="card-title">Members
@@ -277,7 +277,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 grid-margin stretch-card">
+                    <div class="col-xl-3 grid-margin stretch-card">
                         <div class="card custom-card">
                             <div class="card-body">
                                 <h2 class="card-title">Clubs</h2>
@@ -302,7 +302,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 grid-margin stretch-card">
+                    <div class="col-xl-3 grid-margin stretch-card">
                         <div class="card custom-card">
                             <div class="card-body">
                                 <h2 class="card-title mb-3">Attendance</h2>
@@ -319,6 +319,56 @@
                                                 <div>
                                                     <h3 class="font-weight-bold text-info ml-sm-2"><span
                                                             th:text="${totalAttendance}"></span></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 grid-margin stretch-card">
+                        <div class="card custom-card">
+                            <div class="card-body">
+                                <h2 class="card-title mb-3">Accounts Figures</h2>
+                                <div class="text-muted font-weight-normal mt-1"><a class="" th:href="@{/memberAccountStatement}">
+                                    <span class=""> Click Here For Member Statements</span>
+                                </a></div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="text-dark">
+                                            <div class="d-flex pb-3 border-bottom justify-content-between">
+                                                <div class="mr-3"><i
+                                                        class="mdi mdi-signal-cellular-outline icon-md"></i></div>
+                                                <div class="font-weight-bold mr-sm-4">
+                                                    <div>Expected Contribution</div>
+
+                                                </div>
+                                                <div>
+                                                    <h3 class="font-weight-bold text-info ml-sm-2"><span
+                                                            th:text="${totalExpectedContributionSum}"></span></h3>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br>
+
+                                        <div class="text-dark">
+                                            <div class="d-flex pb-3 border-bottom justify-content-between">
+                                                <div class="mr-3"><i
+                                                        class="mdi mdi-signal-cellular-outline icon-md"></i></div>
+
+                                                <div class="font-weight-bold mr-sm-4">
+                                                    <div>Amount Paid</div>
+
+                                                </div>
+                                                <div>
+                                                    <h3 class="font-weight-bold text-info ml-sm-2"><span
+                                                            th:text="${totalAmountContributedSum}"></span></h3>
+
                                                 </div>
                                             </div>
                                         </div>
