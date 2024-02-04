@@ -16,15 +16,6 @@ public class EmailServices {
         this.mailSender = mailSender;
     }
 
-   /* public void sendRegistrationEmail(User user) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(user.getEmail());
-        message.setSubject("Registration Successful");
-        message.setText("Dear " + user.getUsername() + ",\n\n" + "Your registration was successful. Welcome to our application!" + ",\n\n" + "Your Username is: " + user.getUsername() + "Your Password is: " + user.getPassword());
-
-        mailSender.send(message);
-    }*/
-
     public void sendRegistrationEmail(Member member) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(member.getEmail());
@@ -33,4 +24,30 @@ public class EmailServices {
 
         mailSender.send(message);
     }
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* public void sendRegistrationEmail(User user) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(user.getEmail());
+        message.setSubject("Registration Successful");
+        message.setText("Dear " + user.getUsername() + ",\n\n" + "Your registration was successful. Welcome to our application!" + ",\n\n" + "Your Username is: " + user.getUsername() + "Your Password is: " + user.getPassword());
+
+        mailSender.send(message);
+    }*/

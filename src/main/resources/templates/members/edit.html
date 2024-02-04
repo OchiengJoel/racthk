@@ -45,8 +45,8 @@
             </div>
 
             <div class="form-group">
-              <label for="classification">Contact</label>
-              <textarea  class="form-control" th:value="${member.classification}" name="classification" id="classification" placeholder="Role in the club and profession" required></textarea>
+              <label for="classification">Classification</label>
+              <textarea  class="form-control" th:field="${member.classification}" name="classification" id="classification" placeholder="Role in the club and profession" required></textarea>
             </div>
 
             <div class="form-group">
@@ -56,11 +56,13 @@
 
             <div class="form-group">
               <label for="inducted">Status</label>
-              <select class="form-control form-control-lg" id="inducted">
+              <select class="form-control form-control-lg" id="inducted" name="inducted">
                 <option value="true" th:selected="${member.inducted}">Inducted</option>
                 <option value="false" th:selected="${!member.inducted}">Not Inducted</option>
               </select>
             </div>
+
+
 
             <div class="form-group">
               <label for="datejoined">Date Joined</label>

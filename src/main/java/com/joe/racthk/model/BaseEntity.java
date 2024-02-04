@@ -12,20 +12,15 @@ public class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private boolean deleted = Boolean.FALSE;
+
     public BaseEntity() {
     }
 
-    public BaseEntity(Long id) {
+    public BaseEntity(Long id, boolean deleted) {
         this.id = id;
+        this.deleted = deleted;
     }
-
-    @Override
-    public String toString() {
-        return "BaseEntity{" +
-                "id=" + id +
-                '}';
-    }
-
 
     public Long getId() {
         return id;
@@ -33,5 +28,13 @@ public class BaseEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

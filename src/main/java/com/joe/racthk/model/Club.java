@@ -1,17 +1,24 @@
 package com.joe.racthk.model;
 
+import org.hibernate.annotations.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
 @Table(name = "club")
-public class Club {
+@SQLDelete( sql = "UPDATE club SET deleted = true WHERE id=?")
+//@Where(clause = "deleted = false")
+@FilterDef(name = "deletedClubFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedClubFilter", condition = "delete = :isDeleted")
+public class Club extends BaseEntity{
 
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;*/
 
     @Column(name = "name")
     private String name;
@@ -33,8 +40,7 @@ public class Club {
     }
 
 
-    public Club(Long id, String name, String country, String location, Date datefounded) {
-        this.id = id;
+    public Club( String name, String country, String location, Date datefounded) {
         this.name = name;
         this.country = country;
         this.location = location;
@@ -44,20 +50,11 @@ public class Club {
     @Override
     public String toString() {
         return "Club{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", country='" + country + '\'' +
                 ", location='" + location + '\'' +
                 ", datefounded=" + datefounded +
                 '}';
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

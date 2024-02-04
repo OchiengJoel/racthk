@@ -20,6 +20,14 @@ public class ClubController {
         return "clubs/list";
     }
 
+    /*@RequestMapping("/clubs")
+    public String clubList(@RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted, Model  model){
+        Iterable<Club> clubs = clubService.getClubs(isDeleted);
+        model.addAttribute("clubs", clubs);
+        model.addAttribute("isDeleted", isDeleted); // Add the parameter to the model for use in your view
+        return "clubs/list"; // Replace "clubs/list" with the actual view name
+    }*/
+
     @RequestMapping("/addClub")
     public String addClubForm(){
         return "clubs/add";
